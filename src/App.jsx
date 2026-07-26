@@ -1,18 +1,27 @@
 import { BrowserRouter, Routes, Route } from 'react-router';
-import './App.css'
-import MainLayout from './layouts/MainLayout'
-import Login from './pages/Login'
-import Dashboard from './pages/Dashboard'
+import MainLayout from './layouts/MainLayout';
+import Dashboard from './pages/Dashboard';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
 
 
   return (
-     <BrowserRouter>
+      <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<Dashboard />} />
+          <Route
+            index
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
           <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
         </Route>
       </Routes>
     </BrowserRouter>

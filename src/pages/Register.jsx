@@ -2,13 +2,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
-import { loginSchema } from '../schemas/authSchemas';
-import useAuthStore from '../store/authStore';
+import { registerSchema } from '../schemas/authSchemas';
 import api from '../api/axios';
 
-function Login() {
+function Register() {
   const navigate = useNavigate();
-  const setTokens = useAuthStore((state) => state.setTokens);
   const [serverError, setServerError] = useState('');
 
   const {
@@ -16,23 +14,22 @@ function Login() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(registerSchema),
   });
 
   const onSubmit = async (data) => {
     setServerError('');
     try {
-      const response = await api.post('/auth/login/', data);
-      setTokens(response.data.access, response.data.refresh);
-      navigate('/');
+      await api.post('/auth/register/', data);
+      navigate('/login');
     } catch (error) {
-      setServerError('Invalid username or password.');
+      setServerError('Registration failed. Username may already be taken.');
     }
   };
 
   return (
     <div className="max-w-sm">
-      <h2 className="text-xl mb-4">Login</h2>
+      <h2 className="text-xl mb-4">Register</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
         <div>
@@ -43,6 +40,17 @@ function Login() {
           />
           {errors.username && (
             <p className="text-red-400 text-sm mt-1">{errors.username.message}</p>
+          )}
+        </div>
+
+        <div>
+          <input
+            {...register('email')}
+            placeholder="Email"
+            className="w-full p-2 rounded bg-slate-800 border border-slate-700"
+          />
+          {errors.email && (
+            <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
           )}
         </div>
 
@@ -65,11 +73,11 @@ function Login() {
           disabled={isSubmitting}
           className="bg-blue-600 p-2 rounded disabled:opacity-50"
         >
-          {isSubmitting ? 'Logging in...' : 'Login'}
+          {isSubmitting ? 'Creating account...' : 'Register'}
         </button>
       </form>
     </div>
   );
 }
 
-export default Login;
+export default Register;
