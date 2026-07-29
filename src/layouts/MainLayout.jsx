@@ -25,6 +25,7 @@ function MainLayout() {
             <Link to="/register" className="hover:text-blue-400">Register</Link>
           </>
         )}
+        <Link to="/board" className="hover:text-blue-400">Board</Link>
       </nav>
       <main className="p-6">
         <Outlet />
