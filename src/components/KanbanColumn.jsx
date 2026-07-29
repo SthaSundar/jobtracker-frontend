@@ -1,12 +1,15 @@
 import { useDroppable } from '@dnd-kit/core';
 import KanbanCard from './KanbanCard';
 
-function KanbanColumn({ status, title, applications }) {
+function KanbanColumn({ status, title, applications, updatingId  }) {
   const { setNodeRef, isOver } = useDroppable({
     id: status,
   });
 
-  const columnApplications = applications.filter((app) => app.status === status);
+
+
+const columnApplications = applications.filter((app) => app.status === status);
+
 
   return (
     <div className="flex-1 min-w-[250px]">
@@ -20,7 +23,7 @@ function KanbanColumn({ status, title, applications }) {
         }`}
       >
         {columnApplications.map((app) => (
-          <KanbanCard key={app.id} application={app} />
+          <KanbanCard key={app.id} application={app} isUpdating={app.id === updatingId} />
         ))}
       </div>
     </div>
