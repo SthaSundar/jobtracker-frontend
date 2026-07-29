@@ -15,20 +15,15 @@ function Board() {
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
-
     if (!over) return;
 
     const applicationId = active.id;
     const newStatus = over.id;
-
     const application = applications.find((app) => app.id === applicationId);
 
     if (application.status === newStatus) return;
 
-    updateMutation.mutate({
-      id: applicationId,
-      data: { status: newStatus },
-    });
+    updateMutation.mutate({ id: applicationId, data: { status: newStatus } });
   };
 
   if (isLoading) return <p>Loading board...</p>;
@@ -45,6 +40,7 @@ function Board() {
               status={col.status}
               title={col.title}
               applications={applications}
+              updatingId={updateMutation.isPending ? updateMutation.variables?.id : null}
             />
           ))}
         </div>

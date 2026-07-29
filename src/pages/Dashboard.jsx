@@ -2,6 +2,15 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 import { useApplications, useDeleteApplication } from '../hooks/useApplications';
 import { useDebounce } from '../hooks/useDebounce';
+import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { useApplicationStats } from '../hooks/useApplicationStats';
+
+const STATUS_COLORS = {
+  applied: '#3b82f6',
+  interview: '#f59e0b',
+  offer: '#22c55e',
+  rejected: '#ef4444',
+};
 
 function Dashboard() {
   const [search, setSearch] = useState('');
@@ -14,6 +23,7 @@ function Dashboard() {
 
   const { data: applications, isLoading, isError, error } = useApplications(filters);
   const deleteMutation = useDeleteApplication();
+  const { statusBreakdown, timeline } = useApplicationStats(applications);
 
   const handleDelete = (e, id, role, company) => {
     e.preventDefault();
@@ -36,6 +46,41 @@ function Dashboard() {
           + New Application
         </Link>
       </div>
+
+      {!isLoading && !isError && applications && applications.length > 0 && (
+        <div className="flex flex-wrap gap-6 mb-6">
+          <div className="bg-slate-800 border border-slate-700 rounded p-4">
+            <h3 className="text-sm text-slate-400 mb-2">Status Breakdown</h3>
+            <PieChart width={220} height={180}>
+              <Pie
+                data={statusBreakdown}
+                dataKey="count"
+                nameKey="status"
+                cx="50%"
+                cy="50%"
+                outerRadius={60}
+              >
+                {statusBreakdown.map((entry) => (
+                  <Cell key={entry.status} fill={STATUS_COLORS[entry.status]} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </div>
+
+          <div className="bg-slate-800 border border-slate-700 rounded p-4 flex-1 min-w-[300px]">
+            <h3 className="text-sm text-slate-400 mb-2">Applications Over Time</h3>
+            <ResponsiveContainer width="100%" height={180}>
+              <BarChart data={timeline}>
+                <XAxis dataKey="date" tick={{ fontSize: 10, fill: '#94a3b8' }} />
+                <YAxis allowDecimals={false} tick={{ fill: '#94a3b8' }} />
+                <Tooltip />
+                <Bar dataKey="count" fill="#3b82f6" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
 
       <div className="flex gap-3 mb-4">
         <input
