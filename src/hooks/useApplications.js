@@ -1,8 +1,8 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import api from '../api/axios';
 
-const fetchApplications = async () => {
-  const response = await api.get('/applications/');
+const fetchApplications = async (filters) => {
+  const response = await api.get('/applications/', { params: filters });
   return response.data;
 };
 
@@ -25,12 +25,14 @@ const deleteApplication = async (id) => {
   await api.delete(`/applications/${id}/`);
 };
 
-export function useApplications() {
+export function useApplications(filters = {}) {
   return useQuery({
-    queryKey: ['applications'],
-    queryFn: fetchApplications,
+    queryKey: ['applications', filters],
+    queryFn: () => fetchApplications(filters),
+    placeholderData: keepPreviousData,
   });
 }
+
 
 export function useApplication(id) {
   return useQuery({
