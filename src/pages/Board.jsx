@@ -1,4 +1,10 @@
-import { DndContext, closestCenter } from '@dnd-kit/core';
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
 import { useApplications, useUpdateApplication } from '../hooks/useApplications';
 import KanbanColumn from '../components/KanbanColumn';
 
@@ -13,6 +19,12 @@ function Board() {
   const { data: applications, isLoading, isError, error } = useApplications();
   const updateMutation = useUpdateApplication();
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 8 },
+    })
+  );
+
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over) return;
@@ -26,13 +38,13 @@ function Board() {
     updateMutation.mutate({ id: applicationId, data: { status: newStatus } });
   };
 
-  if (isLoading) return <p>Loading board...</p>;
-  if (isError) return <p className="text-red-400">Error: {error.message}</p>;
+  if (isLoading) return <p className="text-text-muted">Loading board...</p>;
+  if (isError) return <p className="text-status-rejected">Error: {error.message}</p>;
 
   return (
     <div>
-      <h2 className="text-xl mb-4">Board</h2>
-      <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <h2 className="text-xl text-text-primary mb-4">Board</h2>
+      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <div className="flex gap-4 overflow-x-auto pb-4">
           {COLUMNS.map((col) => (
             <KanbanColumn

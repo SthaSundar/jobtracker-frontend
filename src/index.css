@@ -1,1 +1,52 @@
 @import "tailwindcss";
+
+@theme {
+  --color-ink: var(--c-ink);
+  --color-surface: var(--c-surface);
+  --color-surface-raised: var(--c-surface-raised);
+  --color-text-primary: var(--c-text-primary);
+  --color-text-muted: var(--c-text-muted);
+  --color-accent: var(--c-accent);
+  --color-accent-hover: var(--c-accent-hover);
+  --color-status-applied: var(--c-status-applied);
+  --color-status-interview: var(--c-status-interview);
+  --color-status-offer: var(--c-status-offer);
+  --color-status-rejected: var(--c-status-rejected);
+
+  --font-display: "Fraunces", serif;
+  --font-body: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+:root {
+  --c-ink: #12151b;
+  --c-surface: #1c2129;
+  --c-surface-raised: #242b35;
+  --c-text-primary: #edeae3;
+  --c-text-muted: #a9a196;
+  --c-accent: #c99a4b;
+  --c-accent-hover: #dbaf63;
+  --c-status-applied: #6c87a8;
+  --c-status-interview: #d98f3f;
+  --c-status-offer: #4b9e6e;
+  --c-status-rejected: #b5533c;
+}
+
+.light {
+  --c-ink: #f6f1e7;
+  --c-surface: #fffdf8;
+  --c-surface-raised: #fbf6ec;
+  --c-text-primary: #2b2620;
+  --c-text-muted: #6b6355;
+  --c-accent: #a8752b;
+  --c-accent-hover: #8f5f1f;
+  --c-status-applied: #4c6485;
+  --c-status-interview: #b36f1f;
+  --c-status-offer: #357a52;
+  --c-status-rejected: #93402c;
+}
+
+body {
+  background-color: var(--c-ink);
+  color: var(--c-text-primary);
+}
