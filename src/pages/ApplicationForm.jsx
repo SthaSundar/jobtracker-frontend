@@ -40,16 +40,25 @@ function ApplicationForm() {
     }
   }, [isEditing, existingApplication, reset]);
 
-  const onSubmit = async (data) => {
-  const cleanedData = {
-    ...data,
-    follow_up_date: data.follow_up_date || null,
-  };
+  const onSubmit = async (formData) => {
+  const payload = new FormData();
+
+  payload.append('company', formData.company);
+  payload.append('role', formData.role);
+  payload.append('status', formData.status);
+  payload.append('date_applied', formData.date_applied);
+  payload.append('follow_up_date', formData.follow_up_date || '');
+  payload.append('notes', formData.notes || '');
+  payload.append('job_link', formData.job_link || '');
+
+  if (formData.resume_file && formData.resume_file.length > 0) {
+    payload.append('resume_file', formData.resume_file[0]);
+  }
 
   if (isEditing) {
-    await updateMutation.mutateAsync({ id, data: cleanedData });
+    await updateMutation.mutateAsync({ id, data: payload });
   } else {
-    await createMutation.mutateAsync(cleanedData);
+    await createMutation.mutateAsync(payload);
   }
   navigate('/');
 };
@@ -130,6 +139,26 @@ function ApplicationForm() {
             rows={3}
             className="w-full p-2 rounded bg-slate-800 border border-slate-700"
           />
+        </div>
+
+        <div>
+          <label className="text-sm text-slate-400">Resume (PDF, optional)</label>
+          <input
+            {...register('resume_file')}
+            type="file"
+            accept=".pdf,.doc,.docx"
+            className="w-full p-2 rounded bg-slate-800 border border-slate-700 text-sm"
+          />
+          {existingApplication?.resume_file && (
+            <a href={existingApplication.resume_file}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400 text-xs hover:underline mt-1 inline-block"
+          >
+             View current resume
+            </a>
+        )}
+
         </div>
 
         <button

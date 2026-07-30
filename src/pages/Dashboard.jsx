@@ -4,6 +4,7 @@ import { useApplications, useDeleteApplication } from '../hooks/useApplications'
 import { useDebounce } from '../hooks/useDebounce';
 import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import { useApplicationStats } from '../hooks/useApplicationStats';
+import { toast } from 'sonner';
 
 const STATUS_COLORS = {
   applied: '#3b82f6',
@@ -35,6 +36,7 @@ function Dashboard() {
 
     if (confirmed) {
       deleteMutation.mutate(id);
+      toast.success('Application deleted');
     }
   };
 

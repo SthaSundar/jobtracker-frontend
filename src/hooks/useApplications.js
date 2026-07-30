@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import api from '../api/axios';
 
 const fetchApplications = async (filters) => {
@@ -48,6 +49,7 @@ export function useCreateApplication() {
     mutationFn: createApplication,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['applications'] });
+      toast.success('Application created');
     },
   });
 }
@@ -58,6 +60,7 @@ export function useUpdateApplication() {
     mutationFn: updateApplication,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['applications'] });
+      toast.success('Application updated');
     },
   });
 }
@@ -82,6 +85,7 @@ export function useDeleteApplication() {
 
     onError: (err, id, context) => {
       queryClient.setQueryData(['applications'], context.previousApplications);
+      toast.error('Failed to delete application');
     },
 
     onSettled: () => {

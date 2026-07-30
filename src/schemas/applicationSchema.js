@@ -8,4 +8,5 @@ export const applicationSchema = z.object({
   follow_up_date: z.string().optional().or(z.literal('')),
   notes: z.string().optional(),
   job_link: z.string().url('Must be a valid URL').optional().or(z.literal('')),
+  resume_file: z.any().optional(),
 });
