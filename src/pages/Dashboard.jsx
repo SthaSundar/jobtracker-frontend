@@ -6,6 +6,7 @@ import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, ResponsiveCo
 import { useApplicationStats } from '../hooks/useApplicationStats';
 import { toast } from 'sonner';
 import StatusStamp from '../components/StatusStamp';
+import ConfirmModal from '../components/ConfirmModal';
 
 const STATUS_COLORS = {
   applied: '#6c87a8',
@@ -18,6 +19,7 @@ function Dashboard() {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('');
   const debouncedSearch = useDebounce(search, 400);
+  const [pendingDelete, setPendingDelete] = useState(null); // { id, role, company } | null
 
   const filters = {};
   if (debouncedSearch) filters.search = debouncedSearch;
@@ -27,19 +29,20 @@ function Dashboard() {
   const deleteMutation = useDeleteApplication();
   const { statusBreakdown, timeline } = useApplicationStats(applications);
 
-  const handleDelete = (e, id, role, company) => {
+  const handleDeleteClick = (e, id, role, company) => {
     e.preventDefault();
     e.stopPropagation();
-
-    const confirmed = window.confirm(
-      `Delete the application for ${role} at ${company}? This can't be undone.`
-    );
-
-    if (confirmed) {
-      deleteMutation.mutate(id);
-      toast.success('Application deleted');
-    }
+    setPendingDelete({ id, role, company });
   };
+
+  const confirmDelete = () => {
+    if (!pendingDelete) return;
+    deleteMutation.mutate(pendingDelete.id);
+    toast.success('Application deleted');
+    setPendingDelete(null);
+  };
+
+  const cancelDelete = () => setPendingDelete(null);
 
   return (
     <div>
@@ -129,7 +132,7 @@ function Dashboard() {
                 <div className="flex items-center gap-3">
                   <StatusStamp status={app.status} />
                   <button
-                    onClick={(e) => handleDelete(e, app.id, app.role, app.company)}
+                    onClick={(e) => handleDeleteClick(e, app.id, app.role, app.company)}
                     className="text-red-400 hover:text-red-300 text-sm"
                   >
                     Delete
@@ -140,6 +143,18 @@ function Dashboard() {
           ))}
         </div>
       )}
+
+      <ConfirmModal
+        open={!!pendingDelete}
+        title="Delete application?"
+        message={
+          pendingDelete
+            ? `Delete the application for ${pendingDelete.role} at ${pendingDelete.company}? This can't be undone.`
+            : ''
+        }
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 }
