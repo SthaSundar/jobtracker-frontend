@@ -76,7 +76,7 @@ function ApplicationForm() {
           <input
             {...register('company')}
             placeholder="Company"
-            className="w-full p-2 rounded bg-slate-800 border border-slate-700"
+            className="w-full p-2 rounded-md bg-surface border border-accent/20 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent"
           />
           {errors.company && <p className="text-red-400 text-sm mt-1">{errors.company.message}</p>}
         </div>
@@ -85,7 +85,7 @@ function ApplicationForm() {
           <input
             {...register('role')}
             placeholder="Role"
-            className="w-full p-2 rounded bg-slate-800 border border-slate-700"
+            className="w-full p-2 rounded-md bg-surface border border-accent/20 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent"
           />
           {errors.role && <p className="text-red-400 text-sm mt-1">{errors.role.message}</p>}
         </div>
@@ -93,7 +93,7 @@ function ApplicationForm() {
         <div>
           <select
             {...register('status')}
-            className="w-full p-2 rounded bg-slate-800 border border-slate-700"
+            className="w-full p-2 rounded-md bg-surface border border-accent/20 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent"
           >
             <option value="applied">Applied</option>
             <option value="interview">Interview</option>
@@ -107,7 +107,7 @@ function ApplicationForm() {
           <input
             {...register('date_applied')}
             type="date"
-            className="w-full p-2 rounded bg-slate-800 border border-slate-700"
+            className="w-full p-2 rounded-md bg-surface border border-accent/20 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent"
           />
           {errors.date_applied && (
             <p className="text-red-400 text-sm mt-1">{errors.date_applied.message}</p>
@@ -119,7 +119,7 @@ function ApplicationForm() {
           <input
             {...register('follow_up_date')}
             type="date"
-            className="w-full p-2 rounded bg-slate-800 border border-slate-700"
+            className="w-full p-2 rounded-md bg-surface border border-accent/20 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent"
           />
         </div>
 
@@ -127,7 +127,7 @@ function ApplicationForm() {
           <input
             {...register('job_link')}
             placeholder="Job posting URL (optional)"
-            className="w-full p-2 rounded bg-slate-800 border border-slate-700"
+            className="w-full p-2 rounded-md bg-surface border border-accent/20 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent"
           />
           {errors.job_link && <p className="text-red-400 text-sm mt-1">{errors.job_link.message}</p>}
         </div>
@@ -137,7 +137,7 @@ function ApplicationForm() {
             {...register('notes')}
             placeholder="Notes (optional)"
             rows={3}
-            className="w-full p-2 rounded bg-slate-800 border border-slate-700"
+            className="w-full p-2 rounded-md bg-surface border border-accent/20 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent"
           />
         </div>
 
@@ -147,7 +147,7 @@ function ApplicationForm() {
             {...register('resume_file')}
             type="file"
             accept=".pdf,.doc,.docx"
-            className="w-full p-2 rounded bg-slate-800 border border-slate-700 text-sm"
+            className="w-full p-2 rounded-md bg-surface border border-accent/20 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent"
           />
           {existingApplication?.resume_file && (
             <a href={existingApplication.resume_file}
@@ -164,7 +164,7 @@ function ApplicationForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-blue-600 p-2 rounded disabled:opacity-50"
+          className="bg-accent text-ink font-medium p-2 rounded-md hover:bg-accent-hover transition-colors disabled:opacity-50" 
         >
           {isSubmitting ? 'Saving...' : isEditing ? 'Update Application' : 'Create Application'}
         </button>

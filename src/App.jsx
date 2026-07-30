@@ -6,8 +6,15 @@ import Register from './pages/Register';
 import ApplicationForm from './pages/ApplicationForm';
 import ProtectedRoute from './components/ProtectedRoute';
 import Board from './pages/Board';
+import { useEffect } from 'react';
+import useThemeStore from './store/themeStore';
 
 function App() {
+   const theme = useThemeStore((state) => state.theme);
+   useEffect(() => {
+    document.documentElement.classList.toggle('light', theme === 'light');
+  }, [theme]);
+
   return (
     <BrowserRouter>
       <Routes>

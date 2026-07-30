@@ -36,7 +36,7 @@ function Register() {
           <input
             {...register('username')}
             placeholder="Username"
-            className="w-full p-2 rounded bg-slate-800 border border-slate-700"
+            className="w-full p-2 rounded-md bg-surface border border-accent/20 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent"
           />
           {errors.username && (
             <p className="text-red-400 text-sm mt-1">{errors.username.message}</p>
@@ -47,7 +47,7 @@ function Register() {
           <input
             {...register('email')}
             placeholder="Email"
-            className="w-full p-2 rounded bg-slate-800 border border-slate-700"
+            className="w-full p-2 rounded-md bg-surface border border-accent/20 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent"
           />
           {errors.email && (
             <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
@@ -59,7 +59,7 @@ function Register() {
             {...register('password')}
             type="password"
             placeholder="Password"
-            className="w-full p-2 rounded bg-slate-800 border border-slate-700"
+            className="w-full p-2 rounded-md bg-surface border border-accent/20 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent"
           />
           {errors.password && (
             <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>
@@ -71,7 +71,7 @@ function Register() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-blue-600 p-2 rounded disabled:opacity-50"
+          className="bg-accent text-ink font-medium p-2 rounded-md hover:bg-accent-hover transition-colors disabled:opacity-50"
         >
           {isSubmitting ? 'Creating account...' : 'Register'}
         </button>
