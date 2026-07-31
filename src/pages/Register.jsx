@@ -68,20 +68,22 @@ const [showPassword, setShowPassword] = useState(false);
         </div>
 
         <div>
-          <input
-            {...register('password')}
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Password"
-            className="w-full p-2 rounded-md bg-surface border border-accent/20 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent"
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-accent"
-            tabIndex={-1}
-          >
-            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-          </button>
+          <div className="relative">
+            <input
+              {...register('password')}
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Password"
+              className="w-full p-2 rounded-md bg-surface border border-accent/20 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-accent"
+              tabIndex={-1}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
           {errors.password && (
             <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>
           )}
