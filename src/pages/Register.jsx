@@ -17,15 +17,25 @@ function Register() {
     resolver: zodResolver(registerSchema),
   });
 
+ 
   const onSubmit = async (data) => {
-    setServerError('');
-    try {
-      await api.post('/auth/register/', data);
-      navigate('/login');
-    } catch (error) {
-      setServerError('Registration failed. Username may already be taken.');
+  setServerError('');
+  try {
+    await api.post('/auth/register/', data);
+    navigate('/login');
+  } catch (error) {
+    const responseData = error.response?.data;
+
+    if (responseData && typeof responseData === 'object') {
+      const messages = Object.values(responseData)
+        .flat()
+        .join(' ');
+      setServerError(messages || 'Registration failed. Please try again.');
+    } else {
+      setServerError('Registration failed. Please try again.');
     }
-  };
+  }
+};
 
   return (
     <div className="max-w-sm">
