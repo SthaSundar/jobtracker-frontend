@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import { registerSchema } from '../schemas/authSchemas';
 import api from '../api/axios';
+import { Eye, EyeOff } from 'lucide-react';
 
 function Register() {
   const navigate = useNavigate();
