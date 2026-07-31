@@ -17,6 +17,8 @@ function Register() {
     resolver: zodResolver(registerSchema),
   });
 
+const [showPassword, setShowPassword] = useState(false);
+
  
   const onSubmit = async (data) => {
   setServerError('');
@@ -67,10 +69,18 @@ function Register() {
         <div>
           <input
             {...register('password')}
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             placeholder="Password"
             className="w-full p-2 rounded-md bg-surface border border-accent/20 text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent"
           />
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-accent"
+            tabIndex={-1}
+          >
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
           {errors.password && (
             <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>
           )}
