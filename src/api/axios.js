@@ -2,7 +2,7 @@ import axios from 'axios';
 import useAuthStore from '../store/authStore';
 
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api',
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 api.interceptors.request.use((config) => {
@@ -13,4 +13,4 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-export default api; 
+export default api;
